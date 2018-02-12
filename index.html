@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+
+  <title>Document</title>
+</head>
+<body>
+<div class="layout">
+
+    <div class="col1">
+      <div class="margin20">
+        <input type="file" id="fileinput"/> 
+        <button id="run">Run</button>
+        <button id="applyChanges">Apply changes</button>
+        <div>Filename to Save As:</div>
+        <input id="inputFileNameToSaveAs"></input>
+        <button id="saveButton">Save Text to File</button>
+      </div>
+          <!-- Removed temp -->
+          <div style="display: none;">
+          <button class="accordion"><div><strong>PARAGRAPHS</strong></div></button>
+          <ul class="panel" id="lists-para"></ul>
+          </div>
+          <!-- END of Removed temp -->
+      <button class="accordion"><div><strong>ANCHORS</strong></div></button>
+      <ul class="panel" id="lists-anchors"></ul>
+
+      <button class="accordion"><div><strong>IMAGES</strong></div></button>
+      <ul class="panel" id="lists-images"></ul>
+    </div>
+
+    <div class="col2 stick">
+      <div id="ReadResult"></div>
+    </div>
+</div>
+</body>
+<script src="./script.js"></script>
+</html>
