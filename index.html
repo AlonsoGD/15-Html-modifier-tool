@@ -6,31 +6,36 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="style.css">
 
-  <title>Document</title>
+  <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+  <link rel="icon" href="./favicon.ico" type="image/x-icon">
+
+  <title>HTML Editor tool</title>
 </head>
 <body>
 <div class="layout">
 
     <div class="col1">
       <div class="margin20">
-        <input type="file" id="fileinput"/> 
-        <button id="run">Run</button>
-        <button id="applyChanges">Apply changes</button>
-        <div>Filename to Save As:</div>
-        <input id="inputFileNameToSaveAs"></input>
-        <button id="saveButton">Save Text to File</button>
+        <input class="file-slc" type="file" id="fileinput"/> 
+        <ol>
+          <li class="mainb"><button class="action-btn" id="run">Populate</button></li>
+          <li class="mainb"><button class="action-btn" id="applyChanges">Apply changes</button></li>
+          <li class="mainb"><button class="action-btn" id="saveButton">Download as...</button></li>
+        </ol>
       </div>
-          <!-- Removed temp -->
-          <div style="display: none;">
-          <button class="accordion"><div><strong>PARAGRAPHS</strong></div></button>
-          <ul class="panel" id="lists-para"></ul>
-          </div>
-          <!-- END of Removed temp -->
-      <button class="accordion"><div><strong>ANCHORS</strong></div></button>
-      <ul class="panel" id="lists-anchors"></ul>
+                                                                <!-- Removed temp -->
+                                                                <div class="hidden">
+                                                                <button class="accordion"><div><strong>PARAGRAPHS</strong></div></button>
+                                                                <ul class="panel" id="lists-para"></ul>
+                                                                </div>
+                                                                <!-- END of Removed temp -->
+      <div id="resultsWindow" class="hidden">    
+        <button class="accordion"><div><strong>ANCHORS</strong></div></button>
+        <ul class="panel" id="lists-anchors"></ul>
 
-      <button class="accordion"><div><strong>IMAGES</strong></div></button>
-      <ul class="panel" id="lists-images"></ul>
+        <button class="accordion"><div><strong>IMAGES</strong></div></button>
+        <ul class="panel" id="lists-images"></ul>
+      </div>
     </div>
 
     <div class="col2 stick">
