@@ -2,27 +2,34 @@ var anchors;
 var paras;
 var images;
 
-var textToSave;
-
-var file;
-var contents;
+var originalFile;
+var originalCode;
 
 function readHTML(evt) {
-  //Retrieve the first (and only!) File from the FileList object
-  file = evt.target.files[0];
-  console.log(file);
-  if (file) {
+  //Retrieve the first (and only!) originalFile from the FileList object
+  originalFile = evt.target.files[0];
+  if (originalFile) {
     var HTMLfile = new FileReader();
     HTMLfile.onload = function (e) {
       var parser = new DOMParser();
-      contents = e.target.result;
-      //contents = parser.parseFromString(contents, "text/html");
-      document.getElementById("ReadResult").innerHTML = contents;
+      originalCode = e.target.result;
+      //originalCode = parser.parseFromString(originalCode, "text/html");
+      document.getElementById("ReadResult").innerHTML = originalCode;
     }
-    HTMLfile.readAsText(file);
+    HTMLfile.readAsText(originalFile);
   } else {
-    alert("Failed to load file");
+    alert("Failed to load a file");
   }
+}
+
+function replaceFirstLines(string) {
+  function searchFirstLines (string) {
+    var documentFirstLines = string.match(/<!DOCTYPE[^>]*>[\s\S]+?<table/i);
+    return documentFirstLines[0]
+  }
+  
+  var documentFirstLines = string.replace((/<meta[^>]*>[\s\S]+?<table/i), searchFirstLines(originalCode));
+  return documentFirstLines;
 }
 
 // function populateIframe() {
@@ -31,7 +38,7 @@ function readHTML(evt) {
 // }
 
 function extractTags() {
-  if (file == undefined) {
+  if (originalFile == undefined) {
     alert("Choose a file before");
   } else {
     var contentHTML = document.getElementById("ReadResult");
@@ -160,24 +167,27 @@ function escapeHtml(unsafe) {
     .replace(/†/g, "&dagger;")
     .replace(/‡/g, "&ddagger;")
     .replace(/©/g, "&copy;")
+	.replace(/Ç/g, "&Ccedil;")
     
     .replace(/<tbody>/g, " ")
     .replace(/<\/tbody>/g, " ");
-  }
+}
 
 function saveAsFile() {
-  if (file == undefined) {
+  if (originalFile == undefined) {
     alert("Choose a file before");
   } else {
-    textToSave = document.getElementById("ReadResult").innerHTML;
-    textToSave = escapeHtml(textToSave);
-    // var textToSave = contents;
+    var textToSave = document.getElementById("ReadResult").innerHTML;
+    textToSave = replaceFirstLines(escapeHtml(textToSave))
+              + "</body>"
+              + "\n"
+              + "</html>";
     var textToSaveAsBlob = new Blob([textToSave], {encoding:"UTF-8", type:"text/html;charset=UTF-8"});
     var textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
   
     var downloadLink = document.createElement("a");
-    downloadLink.download = file.name;
-    downloadLink.innerHTML = "Download File";
+    downloadLink.download = originalFile.name;
+    downloadLink.innerHTML = "Download originalFile";
     downloadLink.href = textToSaveAsURL;
     downloadLink.onclick = destroyClickedElement;
     downloadLink.style.display = "none";
