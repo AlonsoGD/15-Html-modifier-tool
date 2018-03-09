@@ -1,10 +1,12 @@
-document.addEventListener("DOMContentLoaded", function(event) {
+//document.addEventListener("DOMContentLoaded", function(event) {
   var anchors; 
   var paras;
   var images;
 
   var originalFile;
   var originalCode;
+
+  var textToSave;
 
   function readHTML(evt) {
     //Retrieve the first (and only!) originalFile from the FileList object
@@ -29,7 +31,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
       return documentFirstLines[0]
     }
     
-    var documentFirstLines = string.replace((/<meta[^>]*>[\s\S]+?<table/i), searchFirstLines(originalCode));
+    //Search from the beggining of code in imported in the tool until the first <table. Replaces that with the original code from the file (that contains the tags removed. Doctype, HMTM, Head, body)
+    var documentFirstLines = string.replace((/^[\s\S]+?<table/i), searchFirstLines(originalCode));
     return documentFirstLines;
   }
 
@@ -163,7 +166,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
       .replace(/†/g, "&dagger;")
       .replace(/‡/g, "&ddagger;")
       .replace(/©/g, "&copy;")
-    .replace(/Ç/g, "&Ccedil;")
+      .replace(/Ç/g, "&Ccedil;")
+      .replace(/&amp;/g, "&")
       
       .replace(/<tbody>/g, " ")
       .replace(/<\/tbody>/g, " ");
@@ -173,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     if (originalFile == undefined) {
       alert("Choose a file before");
     } else {
-      var textToSave = document.getElementById("ReadResult").innerHTML;
+      textToSave = document.getElementById("ReadResult").innerHTML;
       textToSave = replaceFirstLines(escapeHtml(textToSave))
                 + "</body>"
                 + "\n"
@@ -221,4 +225,4 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
     
   main();
-});
+//});
