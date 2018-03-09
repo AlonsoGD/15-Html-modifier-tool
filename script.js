@@ -1,12 +1,10 @@
-//document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener("DOMContentLoaded", function(event) {
   var anchors; 
   var paras;
   var images;
 
   var originalFile;
   var originalCode;
-
-  var textToSave;
 
   function readHTML(evt) {
     //Retrieve the first (and only!) originalFile from the FileList object
@@ -179,7 +177,7 @@
     if (originalFile == undefined) {
       alert("Choose a file before");
     } else {
-      textToSave = document.getElementById("ReadResult").innerHTML;
+      var textToSave = document.getElementById("ReadResult").innerHTML;
       textToSave = replaceFirstLines(escapeHtml(textToSave))
                 + "</body>"
                 + "\n"
@@ -227,4 +225,4 @@
   }
     
   main();
-//});
+});
