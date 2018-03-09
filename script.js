@@ -167,7 +167,9 @@
       .replace(/‡/g, "&ddagger;")
       .replace(/©/g, "&copy;")
       .replace(/Ç/g, "&Ccedil;")
+
       .replace(/&amp;/g, "&")
+      .replace(/<br>/g, "<br />")
       
       .replace(/<tbody>/g, " ")
       .replace(/<\/tbody>/g, " ");
