@@ -35,23 +35,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
 
   function extractTags() {
-    function clearResults () {
-      var listsPara = document.getElementById("lists-para");
-      var listsAchor = document.getElementById("lists-anchors");
-      var listImages = document.getElementById("lists-images");
-
-      listsPara.innerHTML = "";
-      listsAchor.innerHTML = "";
-      listImages.innerHTML = "";
-    }
-
     if (originalFile == undefined) {
       alert("Choose a file before");
     } else {
-      document.getElementById("populateButton").innerText = "Refresh";
-
-      clearResults();
-
       var contentHTML = document.getElementById("ReadResult");
       anchors = contentHTML.getElementsByTagName('a');
       paras = contentHTML.getElementsByTagName('p');
@@ -86,59 +72,54 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   function modifyEmail () {
 
-    if (originalFile == undefined) {
-      alert("Choose a file before");
-    } else {
+    var modHrefsValues = [];
+    var modSrcsValues = [];
+    var modAltsValues = [];
+    var modTitlesValues = [];
+
+
+    function getNewValues () {
+      // This functions get the value of the input forms showing at the right column. It stores them in an array, the global variables named modXXXXValues.
+      var editedHrefs = document.getElementsByClassName("href-input");
+      var editedSrcs = document.getElementsByClassName("src-input");
+      var editedAlts = document.getElementsByClassName("alt-input");
+      var editedTitles = document.getElementsByClassName("title-input"); 
       
-
-      var modHrefsValues = [];
-      var modSrcsValues = [];
-      var modAltsValues = [];
-      var modTitlesValues = [];
-
-
-      function getNewValues () {
-        // This functions get the value of the input forms showing at the right column. It stores them in an array, the global variables named modXXXXValues.
-        var editedHrefs = document.getElementsByClassName("href-input");
-        var editedSrcs = document.getElementsByClassName("src-input");
-        var editedAlts = document.getElementsByClassName("alt-input");
-        var editedTitles = document.getElementsByClassName("title-input"); 
-        
-        for (var i = 0; i < editedHrefs.length; i++) {
-          modHrefsValues.push(editedHrefs[i].value);
-        }
-      
-        for (var j = 0; j < editedSrcs.length; j++) {
-          modSrcsValues.push(editedSrcs[j].value);
-        }
-      
-        for (var k = 0; k < editedAlts.length; k++) {
-          modAltsValues.push(editedAlts[k].value);
-        }
-      
-        for (var h = 0; h < editedTitles.length; h++) {
-          modTitlesValues.push(editedTitles[h].value);
-        }
+      for (var i = 0; i < editedHrefs.length; i++) {
+        modHrefsValues.push(editedHrefs[i].value);
       }
-
-      getNewValues();
-
-      for (var i = 0; i < anchors.length; i++) {
-        anchors[i].href = modHrefsValues[i];
+    
+      for (var j = 0; j < editedSrcs.length; j++) {
+        modSrcsValues.push(editedSrcs[j].value);
       }
-
-      for (var j = 0; j < images.length; j++) {
-        images[j].src = modSrcsValues[j];
+    
+      for (var k = 0; k < editedAlts.length; k++) {
+        modAltsValues.push(editedAlts[k].value);
       }
-
-      for (var k = 0; k < images.length; k++) {
-        images[k].alt = modAltsValues[k];
-      }
-
-      for (var h = 0; h < images.length; h++) {
-        images[h].title = modTitlesValues[h];
+    
+      for (var h = 0; h < editedTitles.length; h++) {
+        modTitlesValues.push(editedTitles[h].value);
       }
     }
+
+    getNewValues();
+
+    for (var i = 0; i < anchors.length; i++) {
+      anchors[i].href = modHrefsValues[i];
+    }
+
+    for (var j = 0; j < images.length; j++) {
+      images[j].src = modSrcsValues[j];
+    }
+
+    for (var k = 0; k < images.length; k++) {
+      images[k].alt = modAltsValues[k];
+    }
+
+    for (var h = 0; h < images.length; h++) {
+      images[h].title = modTitlesValues[h];
+    }
+
   }
 
   function escapeHtml(unsafe) {
@@ -193,17 +174,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
 
   function saveAsFile() {
-    function rebuildOriginalFile() {
-      var textToSave = document.getElementById("ReadResult").innerHTML;
-      textToSave = replaceFirstLines(escapeHtml(textToSave)) + "</body>" + "\n" + "</html>";
-
-      return textToSave
-    }
-    
     if (originalFile == undefined) {
       alert("Choose a file before");
     } else {
-      var textToSaveAsBlob = new Blob([rebuildOriginalFile()], {encoding:"UTF-8", type:"text/html;charset=UTF-8"});
+      var textToSave = document.getElementById("ReadResult").innerHTML;
+      textToSave = replaceFirstLines(escapeHtml(textToSave))
+                + "</body>"
+                + "\n"
+                + "</html>";
+      var textToSaveAsBlob = new Blob([textToSave], {encoding:"UTF-8", type:"text/html;charset=UTF-8"});
       var textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
     
       var downloadLink = document.createElement("a");
@@ -225,9 +204,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   function main() {
     document.getElementById('fileinput').addEventListener('change', readHTML, false);
-    document.getElementById('populateButton').addEventListener('click', extractTags, false);
-    document.getElementById('applyChanges').addEventListener('click', modifyEmail, false);
+    document.getElementById('run').addEventListener('click', extractTags, false);
     document.getElementById('saveButton').addEventListener('click', saveAsFile, false);
+    document.getElementById('applyChanges').addEventListener('click', modifyEmail, false);
     
     
     // event listener for accordion elements
