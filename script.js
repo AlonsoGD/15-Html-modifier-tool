@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(event) {
   var anchors; 
-  var paras;
+  //var paras;
   var images;
 
   var originalFile;
@@ -36,11 +36,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   function extractTags() {
     function clearResults () {
-      var listsPara = document.getElementById("lists-para");
+      //var listsPara = document.getElementById("lists-para");
       var listsAchor = document.getElementById("lists-anchors");
       var listImages = document.getElementById("lists-images");
 
-      listsPara.innerHTML = "";
+      //listsPara.innerHTML = "";
       listsAchor.innerHTML = "";
       listImages.innerHTML = "";
     }
@@ -54,22 +54,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       var contentHTML = document.getElementById("ReadResult");
       anchors = contentHTML.getElementsByTagName('a');
-      paras = contentHTML.getElementsByTagName('p');
+      //paras = contentHTML.getElementsByTagName('p');
       images = contentHTML.getElementsByTagName('img');
       showTagContents();
       document.getElementById("resultsWindow").style.display = "block";
+      document.getElementById("linksTextBox").style.display = "block";
     }
 
   }
 
   function showTagContents() {
-    var listsPara = document.getElementById("lists-para");
+    //var listsPara = document.getElementById("lists-para");
     var listsAchor = document.getElementById("lists-anchors");
     var listImages = document.getElementById("lists-images");
 
-    for (var i = 0; i < paras.length; i++) {
-      listsPara.innerHTML += "<li>" + paras[i].innerHTML + "</li>";
-    }
+    //for (var i = 0; i < paras.length; i++) {
+    //  listsPara.innerHTML += "<li>" + paras[i].innerHTML + "</li>";
+    //}
 
     for (var i = 0; i < anchors.length; i++) {
       listsAchor.innerHTML += "<div class='element'><li class='nopoint'>" + anchors[i].innerHTML + "</li>" 
@@ -223,12 +224,33 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.body.removeChild(event.target);
   }
 
+  function useLinksProvided() {
+    function parseCvs(string) {
+      // Get links added by user
+      var parsedString = string.split(/,| |\n/);
+      return parsedString;
+    }
+    
+    if (originalFile === undefined) {
+      alert("Choose a file before");
+    } else if (document.getElementById('linksEntry').value === "")  {
+      alert("Fill the box with your links");
+    } else {
+      var hrefBoxes = document.getElementsByClassName('href-input');
+      var newLinksArray = parseCvs(document.getElementById('linksEntry').value);
+
+      for (var i = 0; i < newLinksArray.length; i++) {
+        hrefBoxes[i].value = newLinksArray[i];
+      }
+    }
+  }
+
   function main() {
     document.getElementById('fileinput').addEventListener('change', readHTML, false);
     document.getElementById('populateButton').addEventListener('click', extractTags, false);
     document.getElementById('applyChanges').addEventListener('click', modifyEmail, false);
     document.getElementById('saveButton').addEventListener('click', saveAsFile, false);
-    
+    document.getElementById('readLinksButton').addEventListener('click', useLinksProvided, false);
     
     // event listener for accordion elements
     var acc = document.getElementsByClassName("accordion");

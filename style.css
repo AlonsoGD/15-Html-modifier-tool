@@ -16,6 +16,19 @@ li {
   padding-left: 0;
 }
 
+textarea {
+  margin: 15px;
+}
+
+textarea#linksEntry {
+  width: 325px;
+  height: 90px;
+}
+
+.square {
+  border: 2px solid black;
+}
+
 .hidden {
   display: none;
 }
@@ -39,7 +52,7 @@ li {
 
 .layout {
   display: grid;
-  grid-template-columns: 65% 35%;
+  grid-template-columns: 62% 38%;
   grid-template-rows: 100%;
 }
 
@@ -59,6 +72,12 @@ li {
   padding: 5px;
   margin: 10px;
 
+}
+
+.two-columns {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 100%;
 }
 
 .nopoint {
@@ -95,8 +114,8 @@ li {
 }
 
 .file-slc {
-  width: 500px;
-  border: solid 1px black;
+  width: 300px !important;
+  border-bottom: solid 1px black;
   padding: 5px;
 }
 
