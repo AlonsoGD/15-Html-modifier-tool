@@ -68,6 +68,7 @@
     //var listsPara = document.getElementById("lists-para");
     var listsAchor = document.getElementById("lists-anchors");
     var listImages = document.getElementById("lists-images");
+    // var jrfNumber = document.getElementById("jrfBox").value;
     //for (var i = 0; i < paras.length; i++) {
     //  listsPara.innerHTML += "<li>" + paras[i].innerHTML + "</li>";
     //}
@@ -76,6 +77,8 @@
       listsAchor.innerHTML += "<div class='element'><li class='nopoint'>" + anchors[i].innerHTML + "</li>" 
       + "<ul><li class='hrefsgrid nopoint'><strong>HREF:</strong> <input class='editables href-input' type='text' value='" + anchors[i].href + "'></li></div>";
       linksList.push(anchors[i].href);
+      linksList.push(',' + '10037' + '_' + randomGenerator() + ',');
+      linksList.push('link_' + [i+1] + '\n');
     }
     for (var i = 0; i < images.length; i++) {
       listImages.innerHTML += "<div class='element'><li class='nopoint'>" + images[i].outerHTML + "</li>" 
@@ -224,13 +227,17 @@
   //Converts an array into a string with a line break for every item in the array.
   function formatArray(arr) {
     var csvContent = "";
-    csvContent = arr.join('\n')
+    csvContent = arr.join('')
     return csvContent;
   }
 
   function printLinks() {
     console.log(formatArray(linksList));
   } 
+
+  function randomGenerator() {
+    return Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
+  }
   
   function saveLinksAsCSV() {
       if (originalFile == undefined) {
