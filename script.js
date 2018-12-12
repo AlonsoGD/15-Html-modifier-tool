@@ -1,7 +1,8 @@
-document.addEventListener("DOMContentLoaded", function(event) {
+//document.addEventListener("DOMContentLoaded", function(event) {
   var anchors; 
   //var paras;
   var images;
+  var linksList = [];
 
   var originalFile;
   var originalCode;
@@ -67,7 +68,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     //var listsPara = document.getElementById("lists-para");
     var listsAchor = document.getElementById("lists-anchors");
     var listImages = document.getElementById("lists-images");
-
     //for (var i = 0; i < paras.length; i++) {
     //  listsPara.innerHTML += "<li>" + paras[i].innerHTML + "</li>";
     //}
@@ -75,8 +75,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     for (var i = 0; i < anchors.length; i++) {
       listsAchor.innerHTML += "<div class='element'><li class='nopoint'>" + anchors[i].innerHTML + "</li>" 
       + "<ul><li class='hrefsgrid nopoint'><strong>HREF:</strong> <input class='editables href-input' type='text' value='" + anchors[i].href + "'></li></div>";
+      linksList.push(anchors[i].href);
     }
-
     for (var i = 0; i < images.length; i++) {
       listImages.innerHTML += "<div class='element'><li class='nopoint'>" + images[i].outerHTML + "</li>" 
       + "<ul><li class='hrefsgrid nopoint'><strong>SRC:</strong> <input class='editables src-input' type='text' value='" + images[i].src + "'></li>" 
@@ -121,9 +121,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
           modTitlesValues.push(editedTitles[h].value);
         }
       }
-
+      
       getNewValues();
-
+      linksList = modHrefsValues;
+      
       for (var i = 0; i < anchors.length; i++) {
         anchors[i].href = modHrefsValues[i];
       }
@@ -182,15 +183,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
       .replace(/•/g, "&bull;")
       .replace(/Ω/g, "&Omega;")
       .replace(/†/g, "&dagger;")
-      .replace(/‡/g, "&ddagger;")
+      .replace(/‡/g, "&Dagger;")
       .replace(/©/g, "&copy;")
       .replace(/Ç/g, "&Ccedil;")
 
       .replace(/&amp;/g, "&")
       .replace(/<br>/g, "<br />")
       
-      .replace(/<tbody>/g, " ")
-      .replace(/<\/tbody>/g, " ");
+      .replace(/<tbody>/g, "")
+      .replace(/<\/tbody>/g, "");
   }
 
   function saveAsFile() {
@@ -215,6 +216,37 @@ document.addEventListener("DOMContentLoaded", function(event) {
       downloadLink.style.display = "none";
       document.body.appendChild(downloadLink);
     
+      downloadLink.click();
+    }
+
+  }
+
+  //Converts an array into a string with a line break for every item in the array.
+  function formatArray(arr) {
+    var csvContent = "";
+    csvContent = arr.join('\n')
+    return csvContent;
+  }
+
+  function printLinks() {
+    console.log(formatArray(linksList));
+  } 
+  
+  function saveLinksAsCSV() {
+      if (originalFile == undefined) {
+      alert("Choose a file before");
+    } else {
+      var textToSaveAsBlob = new Blob([formatArray(linksList)], {type:"text/csv;charset=utf-8;"});
+      var textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
+
+      var downloadLink = document.createElement("a");
+      downloadLink.download = "HTML_Links.csv";
+      downloadLink.innerHTML = "Download HTML_links";
+      downloadLink.href = textToSaveAsURL;
+      downloadLink.onclick = destroyClickedElement;
+      downloadLink.style.display = "none";
+      document.body.appendChild(downloadLink);
+
       downloadLink.click();
     }
 
@@ -250,7 +282,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById('populateButton').addEventListener('click', extractTags, false);
     document.getElementById('applyChanges').addEventListener('click', modifyEmail, false);
     document.getElementById('saveButton').addEventListener('click', saveAsFile, false);
+    document.getElementById('saveLinksButton').addEventListener('click', saveLinksAsCSV, false);
     document.getElementById('readLinksButton').addEventListener('click', useLinksProvided, false);
+    document.getElementById('printLinksButton').addEventListener('click', printLinks, false);
     
     // event listener for accordion elements
     var acc = document.getElementsByClassName("accordion");
@@ -268,4 +302,4 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
     
   main();
-});
+//});
