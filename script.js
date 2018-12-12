@@ -77,7 +77,7 @@
       listsAchor.innerHTML += "<div class='element'><li class='nopoint'>" + anchors[i].innerHTML + "</li>" 
       + "<ul><li class='hrefsgrid nopoint'><strong>HREF:</strong> <input class='editables href-input' type='text' value='" + anchors[i].href + "'></li></div>";
       linksList.push(anchors[i].href);
-      linksList.push(',' + '10037' + '_' + randomGenerator() + ',');
+      linksList.push(',10037' + '_' + randomGenerator() + ',');
       linksList.push('link_' + [i+1] + '\n');
     }
     for (var i = 0; i < images.length; i++) {
@@ -247,7 +247,7 @@
       var textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
 
       var downloadLink = document.createElement("a");
-      downloadLink.download = "HTML_Links.csv";
+      downloadLink.download = originalFile.name.replace(/.html/gi,'.csv');
       downloadLink.innerHTML = "Download HTML_links";
       downloadLink.href = textToSaveAsURL;
       downloadLink.onclick = destroyClickedElement;
