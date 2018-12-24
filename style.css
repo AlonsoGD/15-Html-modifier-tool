@@ -141,3 +141,7 @@ textarea#linksEntry {
   text-decoration: none;
   border: solid 2px #3cb0fd;
 }
+
+#jrfBox {
+  resize: none;
+}

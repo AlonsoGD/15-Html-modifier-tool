@@ -3,6 +3,7 @@
   //var paras;
   var images;
   var linksList = [];
+  var linksListPlain = [];
 
   var originalFile;
   var originalCode;
@@ -68,7 +69,6 @@
     //var listsPara = document.getElementById("lists-para");
     var listsAchor = document.getElementById("lists-anchors");
     var listImages = document.getElementById("lists-images");
-    // var jrfNumber = document.getElementById("jrfBox").value;
     //for (var i = 0; i < paras.length; i++) {
     //  listsPara.innerHTML += "<li>" + paras[i].innerHTML + "</li>";
     //}
@@ -76,9 +76,6 @@
     for (var i = 0; i < anchors.length; i++) {
       listsAchor.innerHTML += "<div class='element'><li class='nopoint'>" + anchors[i].innerHTML + "</li>" 
       + "<ul><li class='hrefsgrid nopoint'><strong>HREF:</strong> <input class='editables href-input' type='text' value='" + anchors[i].href + "'></li></div>";
-      linksList.push(anchors[i].href);
-      linksList.push(',10037' + '_' + randomGenerator() + ',');
-      linksList.push('link_' + [i+1] + '\n');
     }
     for (var i = 0; i < images.length; i++) {
       listImages.innerHTML += "<div class='element'><li class='nopoint'>" + images[i].outerHTML + "</li>" 
@@ -232,17 +229,51 @@
   }
 
   function printLinks() {
-    console.log(formatArray(linksList));
+    saveLinksinArrayJustLinks();
+
+    let clipboardData = formatArray(linksListPlain);
+
+    navigator.clipboard.writeText(clipboardData).then(function() {
+      /* clipboard successfully set */
+    }, function() {
+      /* clipboard write failed */
+    });
   } 
 
   function randomGenerator() {
     return Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
+  }
+
+  function saveLinksinArrayJustLinks() {
+    try {
+      for (var i = 0; i < anchors.length; i++) {
+        linksListPlain.push(anchors[i].href + '\n');
+      }
+    } catch (e) {
+      alert("Please press populate button");
+    }
+  }
+
+  function saveLinksinArray() {
+    try {
+      var jrfNumber = document.getElementById("jrfBox").value;
+
+      for (var i = 0; i < anchors.length; i++) {
+        linksList.push(anchors[i].href);
+        linksList.push(',' + jrfNumber + '_' + randomGenerator() + ',');
+        linksList.push('link_' + [i+1] + '\n');
+      }
+    } catch (e) {
+      alert("Please press populate button");
+    }
+
   }
   
   function saveLinksAsCSV() {
       if (originalFile == undefined) {
       alert("Choose a file before");
     } else {
+      saveLinksinArray();
       var textToSaveAsBlob = new Blob([formatArray(linksList)], {type:"text/csv;charset=utf-8;"});
       var textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
 
@@ -284,12 +315,41 @@
     }
   }
 
+  function openModalCsv() {
+    var downloadCSVButton = document.getElementById('downloadCSVButton');
+    var cancelButton = document.getElementById('cancel');
+    var dialog = document.getElementById('favDialog');
+    
+    function openCheck(dialog) {
+      if(dialog.open) {
+        console.log('Dialog open');
+        
+      } else {
+        console.log('Dialog closed');
+      }
+    }
+    
+    dialog.showModal();
+    openCheck(dialog);
+    // Update button opens a modal dialog
+    downloadCSVButton.addEventListener('click', function() {
+      saveLinksAsCSV();
+      openCheck(dialog);
+    });
+  
+    // Form cancel button closes the dialog box
+    cancelButton.addEventListener('click', function() {
+      dialog.close('animalNotChosen');
+      openCheck(dialog);
+    });
+  }
+
   function main() {
     document.getElementById('fileinput').addEventListener('change', readHTML, false);
     document.getElementById('populateButton').addEventListener('click', extractTags, false);
     document.getElementById('applyChanges').addEventListener('click', modifyEmail, false);
     document.getElementById('saveButton').addEventListener('click', saveAsFile, false);
-    document.getElementById('saveLinksButton').addEventListener('click', saveLinksAsCSV, false);
+    document.getElementById('saveLinksButton').addEventListener('click', openModalCsv, false);
     document.getElementById('readLinksButton').addEventListener('click', useLinksProvided, false);
     document.getElementById('printLinksButton').addEventListener('click', printLinks, false);
     
@@ -307,6 +367,6 @@
       });
     }
   }
-    
+
+ 
   main();
-//});
