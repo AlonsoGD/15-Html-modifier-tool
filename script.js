@@ -45,6 +45,11 @@
       //listsPara.innerHTML = "";
       listsAchor.innerHTML = "";
       listImages.innerHTML = "";
+      linksList = [];
+      linksListPlain= [];
+      //resets 'copy links to clipboard' button
+      document.getElementById('printLinksButton').disabled = false;
+
     }
 
     if (originalFile == undefined) {
@@ -194,7 +199,7 @@
       .replace(/<\/tbody>/g, "");
   }
 
-  function saveAsFile() {
+  function saveAsHtmlFile() {
     function rebuildOriginalFile() {
       var textToSave = document.getElementById("ReadResult").innerHTML;
       textToSave = replaceFirstLines(escapeHtml(textToSave)) + "</body>" + "\n" + "</html>";
@@ -222,18 +227,20 @@
   }
 
   //Converts an array into a string with a line break for every item in the array.
-  function formatArray(arr) {
+  function formatArrayForCsv(arr) {
     var csvContent = "";
     csvContent = arr.join('')
     return csvContent;
   }
 
-  function printLinks() {
+  function copyLinksToClippboard() {
     saveLinksinArrayJustLinks();
 
-    let clipboardData = formatArray(linksListPlain);
+    let clipboardData = formatArrayForCsv(linksListPlain);
 
     navigator.clipboard.writeText(clipboardData).then(function() {
+      //switch to enable and disable button once pressed
+      document.getElementById('printLinksButton').disabled = true;
       /* clipboard successfully set */
     }, function() {
       /* clipboard write failed */
@@ -274,7 +281,7 @@
       alert("Choose a file before");
     } else {
       saveLinksinArray();
-      var textToSaveAsBlob = new Blob([formatArray(linksList)], {type:"text/csv;charset=utf-8;"});
+      var textToSaveAsBlob = new Blob([formatArrayForCsv(linksList)], {type:"text/csv;charset=utf-8;"});
       var textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
 
       var downloadLink = document.createElement("a");
@@ -286,6 +293,7 @@
       document.body.appendChild(downloadLink);
 
       downloadLink.click();
+      linksList = [];
     }
 
   }
@@ -348,10 +356,10 @@
     document.getElementById('fileinput').addEventListener('change', readHTML, false);
     document.getElementById('populateButton').addEventListener('click', extractTags, false);
     document.getElementById('applyChanges').addEventListener('click', modifyEmail, false);
-    document.getElementById('saveButton').addEventListener('click', saveAsFile, false);
+    document.getElementById('saveButton').addEventListener('click', saveAsHtmlFile, false);
     document.getElementById('saveLinksButton').addEventListener('click', openModalCsv, false);
     document.getElementById('readLinksButton').addEventListener('click', useLinksProvided, false);
-    document.getElementById('printLinksButton').addEventListener('click', printLinks, false);
+    document.getElementById('printLinksButton').addEventListener('click', copyLinksToClippboard, false);
     
     // event listener for accordion elements
     var acc = document.getElementsByClassName("accordion");

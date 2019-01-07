@@ -68,6 +68,10 @@ textarea#linksEntry {
   margin: 20px;
 }
 
+.buttons-column {
+  width: 70%;
+}
+
 .hrefsgrid {
   padding: 5px;
   margin: 10px;
@@ -140,6 +144,12 @@ textarea#linksEntry {
   background: #3cb0fd;
   text-decoration: none;
   border: solid 2px #3cb0fd;
+}
+
+.action-btn:disabled {
+  background: #aaa5a5;
+  border: solid 2px #aaa5a5;
+  cursor: default;
 }
 
 #jrfBox {
