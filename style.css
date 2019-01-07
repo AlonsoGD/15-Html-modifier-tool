@@ -21,12 +21,14 @@ textarea {
 }
 
 textarea#linksEntry {
-  width: 325px;
-  height: 90px;
+  width: 500px;
+  height: 150px;
 }
 
 .square {
-  border: 2px solid black;
+  /* border: 2px solid black; */
+  border-radius: 5px;
+  box-shadow: 0px 0px 8px #929292;
 }
 
 .hidden {
@@ -35,6 +37,11 @@ textarea#linksEntry {
 
 .editables {
   width: 90%;
+}
+
+.attribute {
+  width: 8%;
+  display: inline-block;
 }
 
 .margin20 {
@@ -69,13 +76,12 @@ textarea#linksEntry {
 }
 
 .buttons-column {
-  width: 70%;
+  width: 100%;
 }
 
 .hrefsgrid {
   padding: 5px;
-  margin: 10px;
-
+  margin: 0px;
 }
 
 .two-columns {
@@ -128,30 +134,85 @@ textarea#linksEntry {
 }
 
 .action-btn {
-  width: 170px;
+  width: 250px;
   background: #3498db;
   border: solid 2px #3498db;
-  border-radius:6px;
   color: #ffffff;
   font-size: 16px;
   background: #3498db;
   padding: 10px 20px 10px 20px;
   text-decoration: none;
   cursor: pointer;
+  box-shadow: 2px 2px 2px #646464;
+  margin: 0px 5px;
+}
+
+.action-btn--cancel {
+  background: #aaa5a5;
+  border: solid 2px #aaa5a5;
+}
+
+.action-btn--cancel:hover{
+  background: #e6e3e3!important;
+  border: solid 2px #e6e3e3!important;
+}
+
+.action-btn--accept {
+  background: #4be958;
+  border: solid 2px #4be958;
+}
+
+.action-btn--accept:hover {
+  background: #a3eca9!important;
+  border: solid 2px #a3eca9!important;
 }
 
 .action-btn:hover {
   background: #3cb0fd;
   text-decoration: none;
+  outline: unset;
   border: solid 2px #3cb0fd;
+}
+
+.action-btn:active {
+  box-shadow: unset;
+}
+
+.action-btn:focus {
+  outline: unset;
 }
 
 .action-btn:disabled {
   background: #aaa5a5;
   border: solid 2px #aaa5a5;
   cursor: default;
+  box-shadow: none;
+}
+
+.action-btn--active {
+  background: #ff0000!important;
+  border: solid 2px #ff0000!important;
+}
+.action-btn--active:hover {
+  background: #fc4b4b!important;
+  border: solid 2px #fc4b4b!important;
 }
 
 #jrfBox {
   resize: none;
+}
+
+dialog {
+  border-radius: 6px;
+  border: none;
+  box-shadow: 2px 2px 10px #929292;
+}
+
+section {
+  text-align: center;
+}
+
+menu {
+  padding: 5px;
+  text-align: center;
 }

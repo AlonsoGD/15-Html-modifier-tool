@@ -18,6 +18,8 @@
         originalCode = e.target.result;
         //originalCode = parser.parseFromString(originalCode, "text/html");
         document.getElementById("ReadResult").innerHTML = originalCode;
+        document.getElementById("fileinput").classList.remove('action-btn--active');
+        document.getElementById("populateButton").classList.add('action-btn--active');
       }
       HTMLfile.readAsText(originalFile);
     } else {
@@ -35,7 +37,7 @@
     var documentFirstLines = string.replace((/^[\s\S]+?<table/i), searchFirstLines(originalCode));
     return documentFirstLines;
   }
-
+  
   function extractTags() {
     function clearResults () {
       //var listsPara = document.getElementById("lists-para");
@@ -52,6 +54,7 @@
 
     }
 
+    
     if (originalFile == undefined) {
       alert("Choose a file before");
     } else {
@@ -80,13 +83,13 @@
 
     for (var i = 0; i < anchors.length; i++) {
       listsAchor.innerHTML += "<div class='element'><li class='nopoint'>" + anchors[i].innerHTML + "</li>" 
-      + "<ul><li class='hrefsgrid nopoint'><strong>HREF:</strong> <input class='editables href-input' type='text' value='" + anchors[i].href + "'></li></div>";
+      + "<ul><li class='hrefsgrid nopoint'><div class='attribute'><strong>HREF:</strong></div> <input class='editables href-input' type='text' value='" + anchors[i].href + "'></li></div>";
     }
     for (var i = 0; i < images.length; i++) {
       listImages.innerHTML += "<div class='element'><li class='nopoint'>" + images[i].outerHTML + "</li>" 
-      + "<ul><li class='hrefsgrid nopoint'><strong>SRC:</strong> <input class='editables src-input' type='text' value='" + images[i].src + "'></li>" 
-      + "<li class='hrefsgrid nopoint'><strong>ALT:</strong> <input class='editables alt-input' type='text' value='" + images[i].alt + "'></li>"
-      + "<li class='hrefsgrid nopoint'><strong>Title:</strong> <input class='editables title-input' type='text' value='" + images[i].title + "'></li></ul></div>";
+      + "<ul><li class='hrefsgrid nopoint'><div class='attribute'><strong>SRC:</strong></div> <input class='editables src-input' type='text' value='" + images[i].src + "'></li>" 
+      + "<li class='hrefsgrid nopoint'><div class='attribute'><strong>ALT:</strong></div> <input class='editables alt-input' type='text' value='" + images[i].alt + "'></li>"
+      + "<li class='hrefsgrid nopoint'><div class='attribute'><strong>Title:</strong></div> <input class='editables title-input' type='text' value='" + images[i].title + "'></li></ul></div>";
     }
   }
 
@@ -325,47 +328,84 @@
 
   function openModalCsv() {
     var downloadCSVButton = document.getElementById('downloadCSVButton');
-    var cancelButton = document.getElementById('cancel');
-    var dialog = document.getElementById('favDialog');
+    var cancelButtonCSVDialog = document.getElementById('cancelCSVDialog');
+    var csvDialog = document.getElementById('favDialog');
     
-    function openCheck(dialog) {
-      if(dialog.open) {
-        console.log('Dialog open');
+    function openCheckCsvDialog(csvDialog) {
+      if(csvDialog.open) {
+        console.log('csvDialog open');
         
       } else {
-        console.log('Dialog closed');
+        console.log('csvDialog closed');
       }
     }
     
-    dialog.showModal();
-    openCheck(dialog);
-    // Update button opens a modal dialog
+    csvDialog.showModal();
+    openCheckCsvDialog(csvDialog);
+    // Update button opens a modal csvDialog
     downloadCSVButton.addEventListener('click', function() {
       saveLinksAsCSV();
-      openCheck(dialog);
+      openCheckCsvDialog(csvDialog);
     });
   
-    // Form cancel button closes the dialog box
-    cancelButton.addEventListener('click', function() {
-      dialog.close('animalNotChosen');
-      openCheck(dialog);
+    // Form cancel button closes the csvDialog box
+    cancelButtonCSVDialog.addEventListener('click', function() {
+      csvDialog.close('NotUsed');
+      openCheckCsvDialog(csvDialog);
+    });
+  }
+
+  function openModalChageLinks() {
+    var changeLinksButton = document.getElementById('changeLinksButton');
+    var cancelLinksDialog = document.getElementById('cancelLinksDialog');
+    var linksDialog = document.getElementById('linksDialog');
+
+    function openCheckLinksDialog(linksDialog) {
+      if(linksDialog.open) {
+        console.log('linksDialog open');
+      } else {
+        console.log('linksDialog closed');
+      }
+    }
+
+    linksDialog.showModal();
+    openCheckLinksDialog(linksDialog);
+    // Update button opens a modal linksDialog
+    changeLinksButton.addEventListener('click', function() {
+      openCheckLinksDialog(linksDialog);
+    });
+
+    // Form cancel button closes the linksDialog box
+    cancelLinksDialog.addEventListener('click', function() {
+      linksDialog.close('NotUsed');
+      openCheckLinksDialog(linksDialog);
     });
   }
 
   function main() {
     document.getElementById('fileinput').addEventListener('change', readHTML, false);
     document.getElementById('populateButton').addEventListener('click', extractTags, false);
-    document.getElementById('applyChanges').addEventListener('click', modifyEmail, false);
+    document.getElementById('applyChangesButton').addEventListener('click', modifyEmail, false);
     document.getElementById('saveButton').addEventListener('click', saveAsHtmlFile, false);
     document.getElementById('saveLinksButton').addEventListener('click', openModalCsv, false);
     document.getElementById('readLinksButton').addEventListener('click', useLinksProvided, false);
     document.getElementById('printLinksButton').addEventListener('click', copyLinksToClippboard, false);
+    document.getElementById('changeLinksButton').addEventListener('click',openModalChageLinks, false);
     
     // event listener for accordion elements
     var acc = document.getElementsByClassName("accordion");
+    function changeActiveButton() {
+      let element1 = document.getElementById("populateButton");
+      let element2 = document.getElementById("applyChangesButton");
+      element1.classList.remove('action-btn--active');
+      element2.classList.add('action-btn--active');
+    }
+
     for (var z = 0; z < acc.length; z++) {
+      
       acc[z].addEventListener("click", function () {
         this.classList.toggle("active");
+        changeActiveButton();
         var panel = this.nextElementSibling;
         if (panel.style.maxHeight) {
           panel.style.maxHeight = null;
