@@ -246,11 +246,19 @@
 
   function saveLinksinArrayJustLinks() {
     try {
-      for (var i = 0; i < anchors.length; i++) {
-        linksListPlain.push(anchors[i].href + '\n');
-      }
+      let anchorsArray = Array.from(anchors);
+      anchorsArray.map(function (item, index, array) {
+        if (index != array.length - 1) {
+          linksListPlain.push(item.href + "\n");
+        }
+        else {
+          console.log("Last item in array.");
+          linksListPlain.push(item.href);
+        }
+      })
     } catch (e) {
-      alert("Please press populate button");
+      console.log(`${e.name}: ${e.message}`);
+      alert(`Please press the "Populate" button first!`);
     }
   }
 
