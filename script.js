@@ -248,12 +248,8 @@
     }, function() {
       /* clipboard write failed */
     });
-  } 
-
-  function randomGenerator() {
-    return Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
   }
-
+   
   function saveLinksinArrayJustLinks() {
     try {
       let anchorsArray = Array.from(anchors);
@@ -271,6 +267,11 @@
       alert(`Please press the "Populate" button first!`);
     }
   }
+
+  function randomGenerator() {
+    return Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
+  }
+
 
   function saveLinksinArray() {
     try {
