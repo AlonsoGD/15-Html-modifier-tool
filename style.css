@@ -135,16 +135,22 @@ textarea#linksEntry {
 
 .action-btn {
   width: 250px;
-  background: #3498db;
-  border: solid 2px #3498db;
+  border: 0;
   color: #ffffff;
   font-size: 16px;
-  background: #3498db;
+  background: linear-gradient(45deg, #2196F3 30%, #21CBF3 90%);
   padding: 10px 20px 10px 20px;
   text-decoration: none;
   cursor: pointer;
-  box-shadow: 2px 2px 2px #646464;
+  box-shadow: 0px 2px 5px 2px rgba(112, 111, 111, 0.3);
   margin: 0px 5px;
+  border-radius: 5px;
+}
+
+.action-btn:hover {
+  background: #3cb0fd;
+  text-decoration: none;
+  outline: unset;
 }
 
 .action-btn--cancel {
@@ -167,12 +173,6 @@ textarea#linksEntry {
   border: solid 2px #a3eca9!important;
 }
 
-.action-btn:hover {
-  background: #3cb0fd;
-  text-decoration: none;
-  outline: unset;
-  border: solid 2px #3cb0fd;
-}
 
 .action-btn:active {
   box-shadow: unset;
